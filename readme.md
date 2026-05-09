@@ -44,18 +44,9 @@ server.bat (se ejecuta el primero)
   --port 8080
 ```
 
-## Para poder usarlo desde OpenCode añadiendolo como proveedor
-
-proxy.bat (se ejecuta el segundo)
-
-```bat
-@echo off
-uvx oai2ollama --base-url http://localhost:8080/v1 --api-key sk-no-key-required
-```
-
 ## openCode
 
-openCode  (se ejecuta el tercero)
+openCode  (se ejecuta a continuación, una vez cargado el servidor)
 
 ### opdencode.json
 
