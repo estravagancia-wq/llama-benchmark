@@ -2,6 +2,10 @@
 
 Para mis pruebas personales.
 
+- Windows 11
+- llama.cpp
+- ROCm
+
 La intención es tener un asistente de código... Y parece que funciona relativamente bien.
 
 Gracias a todos los que comparten sus experiencias. 
