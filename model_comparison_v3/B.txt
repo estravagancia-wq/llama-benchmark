@@ -1,0 +1,43 @@
+# LuffyTheFox/Qwen3.6-35B-A3B-Uncensored-Wasserstein-GGUF/Qwen3.6-35B-A3B-Uncensored.IQ4_NL.gguf
+
+"Escribe una funcion PHP que valide una direccion de email usando filter_var y tambien una validacion extra (dominio no numerico, longitud maxima 255).",
+--n-cpu-moe 20
+--ubatch-size 64
+prompt eval time =     854.21 ms /    44 tokens (   19.41 ms per token,    51.51 tokens per second)
+       eval time =  229985.77 ms /  3277 tokens (   70.18 ms per token,    14.25 tokens per second)
+      total time =  230839.98 ms /  3321 tokens
+
+"Crea una clase PHP User con propiedades private: id, name, email, password. Incluye constructor, getters/setters, y un metodo validate() que devuelva true si email y password cumplen unos criterios basicos (email valido, password minimo 8 caracteres).",
+--n-cpu-moe 20
+--ubatch-size 64
+prompt eval time =     567.90 ms /    63 tokens (    9.01 ms per token,   110.93 tokens per second)
+       eval time =  157262.41 ms /  2247 tokens (   69.99 ms per token,    14.29 tokens per second)
+      total time =  157830.31 ms /  2310 tokens
+
+"Implementa una funcion recursiva factorial(\$n) en PHP que maneje numeros negativos lanzando una excepcion. Ademas, escribe los test unitarios usando PHPUnit para esta funcion.",
+--n-cpu-moe 20
+--ubatch-size 64
+prompt eval time =     884.58 ms /    47 tokens (   18.82 ms per token,    53.13 tokens per second)
+       eval time =  181827.38 ms /  2669 tokens (   68.13 ms per token,    14.68 tokens per second)
+      total time =  182711.95 ms /  2716 tokens
+
+"Escribe un snippet PHP que conecte a una base de datos MySQL usando PDO, ejecute una consulta SELECT con parametros seguros (prepared statement) y devuelva los resultados como un array asociativo. Incluye manejo de excepciones.",
+--n-cpu-moe 20
+--ubatch-size 64
+prompt eval time =     735.62 ms /    56 tokens (   13.14 ms per token,    76.13 tokens per second)
+       eval time =  153111.71 ms /  2351 tokens (   65.13 ms per token,    15.35 tokens per second)
+      total time =  153847.33 ms /  2407 tokens
+
+"Refactoriza el siguiente codigo PHP para que sea mas legible y use buenas practicas: function do(\$a,\$b){if(\$a>0){return \$a+\$b;}else{return \$a*\$b;}} (nota: 'do' es palabra reservada, cambiale el nombre).",
+--n-cpu-moe 20
+--ubatch-size 64
+prompt eval time =     462.44 ms /    72 tokens (    6.42 ms per token,   155.69 tokens per second)
+       eval time =  123696.79 ms /  1901 tokens (   65.07 ms per token,    15.37 tokens per second)
+      total time =  124159.24 ms /  1973 tokens
+
+"Explica con ejemplos de codigo la diferencia entre include, require, include_once y require_once en PHP. Cuando usar cada uno."
+--n-cpu-moe 20
+--ubatch-size 64
+prompt eval time =     263.40 ms /    36 tokens (    7.32 ms per token,   136.67 tokens per second)
+       eval time =  186896.72 ms /  2862 tokens (   65.30 ms per token,    15.31 tokens per second)
+      total time =  187160.12 ms /  2898 tokens

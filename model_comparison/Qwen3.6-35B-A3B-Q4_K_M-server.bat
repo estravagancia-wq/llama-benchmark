@@ -1,0 +1,24 @@
+@echo off
+.\llama-server.exe ^
+  -m "C:\Users\estravagancia\.lmstudio\models\lmstudio-community\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-Q4_K_M.gguf" ^
+  -c 98304 ^
+  -ngl 99 ^
+  -np 1 ^
+  --chat-template-kwargs "{\"preserve_thinking\":true}" ^
+  --n-cpu-moe 20 ^
+  --no-mmap ^
+  --flash-attn on ^
+  --ubatch-size 64 ^
+  --cache-type-k q4_0 ^
+  --cache-type-v q4_0 ^
+  -b 512 ^
+  --temp 0.6 ^
+  --top-k 20 ^
+  --top-p 0.95 ^
+  --repeat-penalty 1.05 ^
+  --repeat-last-n 256 ^
+  --presence-penalty 0.0 ^
+  --frequency-penalty 0.1 ^
+  --mirostat 0 ^
+  --host 0.0.0.0 ^
+  --port 8080
