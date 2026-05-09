@@ -1,10 +1,19 @@
 # benchmark tests
 
+Para mis pruebas personales.
+
+La intención es tener un asistente de código... Y parece que funciona relativamente bien.
+
+Gracias a todos los que comparten sus experiencias. 
+Por ejemplo al autor de este vídeo: <https://youtu.be/8F_5pdcD3HY?is=w3ZeQmp1uI410so-> @Codacus que abrió otro campo donde seguir curioseando, no digo investigando porque no soy un profesional.
+
+Cacharreo, hago pruebas y saco mis conclusiones... Para que corra lo mejor que pueda en mi PC.
+
 ## configuración actual en llama.cpp
 
-server.bat
+server.bat (se ejecuta el primero)
 
-```cmd
+```bat
 @echo off
 .\llama-server.exe ^
   -m "C:\Users\estravagancia\.lmstudio\models\lmstudio-community\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-Q4_K_M.gguf" ^
@@ -33,16 +42,20 @@ server.bat
 
 ## Para poder usarlo desde OpenCode añadiendolo como proveedor
 
-proxy.bat
+proxy.bat (se ejecuta el segundo)
 
-```cmd
+```bat
 @echo off
 uvx oai2ollama --base-url http://localhost:8080/v1 --api-key sk-no-key-required
 ```
 
-### opencode.json
+## openCode
 
-```
+openCode  (se ejecuta el tercero)
+
+### opdencode.json
+
+```json
 "model": "llama-cpp/qwen3.6-35b-a3b",
   "permission": {
     "bash": {
@@ -86,3 +99,18 @@ uvx oai2ollama --base-url http://localhost:8080/v1 --api-key sk-no-key-required
     }
   },
 ```
+
+# Notas:
+
+Si, me descargué el modelo usando LM Studio y lo corro desde llama.cpp :D (me resulta más cómodo descargarlos desde LM Studio, y ver las notas).
+
+# Equipo
+
+- Caja: Antec P30 AIR
+- Cooling: Arctic Liquid Freezer III Pro
+- MB: ASUS PRIME X870-P WIFI
+- CPU: AMD Ryzen 7 9800X3D 4.7/5.2GHz
+- SSD: WD_BLACK SN850X 2TB
+- GPU: AMD Radeon RX 9070 XT (16 GB)
+- RAM Corsair Vengeance RGB DDR5 6400MHz (CMH32GX5M2B6400C36w)
+- PS: CORSAIR HX850
