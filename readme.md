@@ -13,7 +13,7 @@ Por ejemplo al autor de este vídeo: <https://youtu.be/8F_5pdcD3HY?is=w3ZeQmp1uI
 
 Cacharreo, hago pruebas y saco mis conclusiones... Para que corra lo mejor que pueda en mi PC.
 
-## configuración actual en llama.cpp
+## configuración actual en llama.cpp (la voy modificando según el resultado de las pruebas)
 
 server.bat (se ejecuta el primero)
 
@@ -21,16 +21,15 @@ server.bat (se ejecuta el primero)
 @echo off
 .\llama-server.exe ^
   -m "C:\Users\estravagancia\.lmstudio\models\lmstudio-community\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-Q4_K_M.gguf" ^
-  -c 98304 ^
+  -c 65536 ^
   -ngl 99 ^
   -np 1 ^
-  --chat-template-kwargs "{\"preserve_thinking\":true}" ^
-  --n-cpu-moe 12 ^
-  --no-mmap ^
+  --n-cpu-moe 8 ^
   --flash-attn on ^
-  --ubatch-size 128 ^
-  --cache-type-k q4_0 ^
-  --cache-type-v q4_0 ^
+  --cache-type-k q8_0 ^
+  --cache-type-v q8_0 ^
+  --no-mmap ^
+  --ubatch-size 256 ^
   -b 512 ^
   --temp 0.6 ^
   --top-k 20 ^
@@ -62,6 +61,7 @@ openCode  (se ejecuta a continuación, una vez cargado el servidor)
       "git rebase *": "ask",
       "git reset --hard *": "ask"
     },
+    "websearch": "allow",
     "read": {
       "*": "allow",
       "**.env": "deny",
@@ -77,22 +77,41 @@ openCode  (se ejecuta a continuación, una vez cargado el servidor)
 
     ... ...
 
-  "provider": {
+   "provider": {
+
     "llama-cpp": {
       "name": "Llama-CPP",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
         "baseURL": "http://localhost:8080/v1",
-        "chatTemplateKwargs": "{\"preserve_thinking\":true}"
+        "chatTemplateKwargs": "{}",
+        "think": false,
+        "allowedTools": [
+          "bash",
+          "read",
+          "glob",
+          "grep",
+          "edit",
+          "write",
+          "task",
+          "webfetch",
+          "websearch",
+          "todowrite",
+          "skill",
+          "delegate",
+          "delegation_read",
+          "delegation_list",
+          "engram_mem_*"
+        ]
       },
       "models": {
         "qwen3.6-35b-a3b": {
           "name": "qwen3.6-35b-a3b",
-          "maxContextTokens": 98304
+          "maxContextTokens": 65536
         }
       }
     }
-  },
+    },
 ```
 
 # Notas:
