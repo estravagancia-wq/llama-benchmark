@@ -19,6 +19,8 @@ prompt eval time =     583.13 ms /    44 tokens (   13.25 ms per token,    75.46
       total time =  150676.09 ms /  3589 tokens
 
 -alto rendimiento
+  -c 98304 ^
+  -ngl 99 ^
 prompt eval time =     428.40 ms /    44 tokens (    9.74 ms per token,   102.71 tokens per second)
        eval time =  121420.95 ms /  2933 tokens (   41.40 ms per token,    24.16 tokens per second)
       total time =  121849.35 ms /  2977 tokens
@@ -32,6 +34,16 @@ prompt eval time =     362.24 ms /    44 tokens (    8.23 ms per token,   121.47
 prompt eval time =     310.84 ms /    44 tokens (    7.06 ms per token,   141.55 tokens per second)
        eval time =  153705.26 ms /  4096 tokens (   37.53 ms per token,    26.65 tokens per second)
       total time =  154016.10 ms /  4140 tokens
+
+--n-cpu-moe 8  y -c 65536
+prompt eval time =     265.74 ms /    44 tokens (    6.04 ms per token,   165.57 tokens per second)
+       eval time =  130617.09 ms /  4096 tokens (   31.89 ms per token,    31.36 tokens per second)
+      total time =  130882.83 ms /  4140 tokens
+
+-- recomendada por opencode -ngl 28 --n-cpu-moe 8 y -c 65536
+prompt eval time =     426.70 ms /    44 tokens (    9.70 ms per token,   103.12 tokens per second)
+       eval time =  171492.68 ms /  3773 tokens (   45.45 ms per token,    22.00 tokens per second)
+      total time =  171919.38 ms /  3817 tokens
 
 
 [2/6] "Crea una clase PHP User con propiedades private: id, name, email, password. Incluye constructor, getters/setters, y un metodo validate() que devuelva true si email y password cumplen unos criterios basicos (email valido, password minimo 8 caracteres).",
@@ -67,6 +79,15 @@ prompt eval time =     292.34 ms /    63 tokens (    4.64 ms per token,   215.50
        eval time =   74415.53 ms /  2034 tokens (   36.59 ms per token,    27.33 tokens per second)
       total time =   74707.87 ms /  2097 tokens
 
+--n-cpu-moe 8  y -c 65536
+prompt eval time =     234.14 ms /    63 tokens (    3.72 ms per token,   269.07 tokens per second)
+       eval time =   90274.93 ms /  2912 tokens (   31.00 ms per token,    32.26 tokens per second)
+      total time =   90509.07 ms /  2975 tokens
+
+-- recomendada por opencode -ngl 28 --n-cpu-moe 8 y -c 65536
+prompt eval time =     414.81 ms /    63 tokens (    6.58 ms per token,   151.88 tokens per second)
+       eval time =  139723.83 ms /  2943 tokens (   47.48 ms per token,    21.06 tokens per second)
+      total time =  140138.64 ms /  3006 tokens
 
 [3/6] "Implementa una funcion recursiva factorial(\$n) en PHP que maneje numeros negativos lanzando una excepcion. Ademas, escribe los test unitarios usando PHPUnit para esta funcion.",
 --n-cpu-moe 20
@@ -101,6 +122,16 @@ prompt eval time =     263.49 ms /    47 tokens (    5.61 ms per token,   178.37
        eval time =   72545.07 ms /  1984 tokens (   36.57 ms per token,    27.35 tokens per second)
       total time =   72808.56 ms /  2031 tokens
 
+--n-cpu-moe 8  y -c 65536
+prompt eval time =     211.05 ms /    47 tokens (    4.49 ms per token,   222.69 tokens per second)
+       eval time =   80163.65 ms /  2566 tokens (   31.24 ms per token,    32.01 tokens per second)
+      total time =   80374.70 ms /  2613 tokens
+
+
+-- recomendada por opencode -ngl 28 --n-cpu-moe 8 y -c 65536
+prompt eval time =     454.02 ms /    47 tokens (    9.66 ms per token,   103.52 tokens per second)
+       eval time =  119814.09 ms /  2529 tokens (   47.38 ms per token,    21.11 tokens per second)
+      total time =  120268.11 ms /  2576 tokens
 
 [4/6] "Escribe un snippet PHP que conecte a una base de datos MySQL usando PDO, ejecute una consulta SELECT con parametros seguros (prepared statement) y devuelva los resultados como un array asociativo. Incluye manejo de excepciones.",
 --n-cpu-moe 20
@@ -135,6 +166,16 @@ prompt eval time =     270.55 ms /    56 tokens (    4.83 ms per token,   206.99
        eval time =   85040.35 ms /  2305 tokens (   36.89 ms per token,    27.10 tokens per second)
       total time =   85310.90 ms /  2361 tokens
 
+--n-cpu-moe 8  y -c 65536
+prompt eval time =     217.00 ms /    56 tokens (    3.88 ms per token,   258.06 tokens per second)
+       eval time =   95088.95 ms /  3020 tokens (   31.49 ms per token,    31.76 tokens per second)
+      total time =   95305.95 ms /  3076 tokens
+
+
+-- recomendada por opencode -ngl 28 --n-cpu-moe 8 y -c 65536
+prompt eval time =     393.71 ms /    56 tokens (    7.03 ms per token,   142.24 tokens per second)
+       eval time =  145466.82 ms /  3227 tokens (   45.08 ms per token,    22.18 tokens per second)
+      total time =  145860.53 ms /  3283 tokens
 
 [5/6] "Refactoriza el siguiente codigo PHP para que sea mas legible y use buenas practicas: function do(\$a,\$b){if(\$a>0){return \$a+\$b;}else{return \$a*\$b;}} (nota: 'do' es palabra reservada, cambiale el nombre).",
 --n-cpu-moe 20
@@ -169,6 +210,15 @@ prompt eval time =     336.16 ms /    72 tokens (    4.67 ms per token,   214.18
        eval time =   87708.87 ms /  2374 tokens (   36.95 ms per token,    27.07 tokens per second)
       total time =   88045.04 ms /  2446 tokens
 
+--n-cpu-moe 8  y -c 65536
+prompt eval time =     276.29 ms /    72 tokens (    3.84 ms per token,   260.60 tokens per second)
+       eval time =   76878.33 ms /  2439 tokens (   31.52 ms per token,    31.73 tokens per second)
+      total time =   77154.61 ms /  2511 tokens
+
+-- recomendada por opencode -ngl 28 --n-cpu-moe 8 y -c 65536
+prompt eval time =     452.79 ms /    72 tokens (    6.29 ms per token,   159.02 tokens per second)
+       eval time =  104920.95 ms /  2413 tokens (   43.48 ms per token,    23.00 tokens per second)
+      total time =  105373.73 ms /  2485 tokens
 
 [6/6] "Explica con ejemplos de codigo la diferencia entre include, require, include_once y require_once en PHP. Cuando usar cada uno."
 --n-cpu-moe 20
@@ -203,3 +253,12 @@ prompt eval time =     246.63 ms /    36 tokens (    6.85 ms per token,   145.97
        eval time =   96651.90 ms /  2635 tokens (   36.68 ms per token,    27.26 tokens per second)
       total time =   96898.53 ms /  2671 tokens
 
+--n-cpu-moe 8  y -c 65536
+prompt eval time =     196.71 ms /    36 tokens (    5.46 ms per token,   183.01 tokens per second)
+       eval time =   98127.33 ms /  3065 tokens (   32.02 ms per token,    31.23 tokens per second)
+      total time =   98324.04 ms /  3101 tokens
+
+-- recomendada por opencode -ngl 28 --n-cpu-moe 8 y -c 65536
+prompt eval time =     360.00 ms /    36 tokens (   10.00 ms per token,   100.00 tokens per second)
+       eval time =  102724.11 ms /  2340 tokens (   43.90 ms per token,    22.78 tokens per second)
+      total time =  103084.11 ms /  2376 tokens

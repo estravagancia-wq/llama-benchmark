@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmark Qwen3.6-35B-A3B — Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d2e;
+      --border: #2a2d3e;
+      --text: #e0e0e0;
+      --muted: #8890a0;
+      --accent: #6c63ff;
+      --green: #2ecc71;
+      --orange: #f39c12;
+      --red: #e74c3c;
+      --cyan: #00cec9;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px;
+      line-height: 1.6;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .header h1 { font-size: 1.8rem; margin-bottom: 4px; }
+    .header p { color: var(--muted); font-size: 0.95rem; }
+    .badges { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+    .badge {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; color: var(--muted);
+    }
+    .badge.highlight { border-color: var(--green); color: var(--green); }
+
+    .kpi-row {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px; margin-bottom: 32px;
+    }
+    .kpi-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; text-align: center;
+    }
+    .kpi-card .value { font-size: 2rem; font-weight: 700; }
+    .kpi-card .label { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+    .kpi-card.best { border-color: var(--green); }
+    .kpi-card.best .value { color: var(--green); }
+
+    .charts-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+      gap: 24px; margin-bottom: 32px;
+    }
+    .chart-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px;
+    }
+    .chart-card h3 { font-size: 1rem; margin-bottom: 4px; }
+    .chart-card .subtitle { color: var(--muted); font-size: 0.8rem; margin-bottom: 16px; }
+    .chart-container { position: relative; width: 100%; max-height: 350px; }
+
+    .full-width { grid-column: 1 / -1; }
+
+    .config-table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; position: sticky; top: 0; background: var(--card); }
+    tr:hover { background: rgba(108, 99, 255, 0.05); }
+    .rank-1 { color: var(--green); font-weight: 700; }
+    .rank-2 { color: #bada55; font-weight: 600; }
+    .rank-3 { color: var(--orange); font-weight: 600; }
+
+    .recommendations { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .recommendations h3 { margin-bottom: 12px; }
+    .rec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .rec-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+    }
+    .rec-card .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 6px; }
+    .rec-card .cmd { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.85rem; background: rgba(108,99,255,0.1); padding: 8px 12px; border-radius: 6px; margin-top: 8px; word-break: break-all; }
+    .rec-card p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+
+    .findings { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .findings h3 { margin-bottom: 12px; }
+    .findings ul { list-style: none; display: grid; gap: 8px; }
+    .findings li {
+      background: var(--card); border-left: 3px solid var(--accent);
+      padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 0.9rem; line-height: 1.5;
+    }
+    .findings li::before { content: "→ "; color: var(--accent); }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      .charts-grid { grid-template-columns: 1fr; }
+      .chart-card { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Benchmark Qwen3.6-35B-A3B</h1>
+  <p>lmstudio-community/Qwen3.6-35B-A3B-Q4_K_M · llama-server · 6 prompts · 8 configuraciones</p>
+  <div class="badges">
+    <span class="badge highlight">&#9733; Mejor config: moe-8 + c65536 + ngl99</span>
+    <span class="badge">Calificación general: A-</span>
+    <span class="badge">5/6 respuestas completas</span>
+  </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="kpi-row">
+  <div class="kpi-card best">
+    <div class="value" style="color: var(--green);">#1</div>
+    <div class="label">Mejor configuración global</div>
+  </div>
+  <div class="kpi-card">
+    <div class="value" style="color: var(--cyan);">31.36</div>
+    <div class="label">Tokens/seg (mejor avg)</div>
+  </div>
+  <div class="kpi-card">
+    <div class="value" style="color: var(--orange);">102.7s</div>
+    <div class="label">Tiempo promedio (mejor)</div>
+  </div>
+  <div class="kpi-card">
+    <div class="value" style="color: var(--red);">158.8s</div>
+    <div class="label">Peor configuración</div>
+  </div>
+  <div class="kpi-card">
+    <div class="value">35%</div>
+    <div class="label">Gap mejor vs peor</div>
+  </div>
+</div>
+
+<!-- Charts -->
+<div class="charts-grid">
+
+  <!-- Chart 1: Tokens per second by config -->
+  <div class="chart-card">
+    <h3>Tokens por segundo — Promedio por configuración</h3>
+    <p class="subtitle">Mayor es mejor · Media de todos los prompts</p>
+    <div class="chart-container"><canvas id="chartTps"></canvas></div>
+  </div>
+
+  <!-- Chart 2: Average total time by config -->
+  <div class="chart-card">
+    <h3>Tiempo total promedio por configuración</h3>
+    <p class="subtitle">Menor es mejor · Media de todos los prompts</p>
+    <div class="chart-container"><canvas id="chartTime"></canvas></div>
+  </div>
+
+  <!-- Chart 3: Per-prompt comparison (grouped) -->
+  <div class="chart-card full-width">
+    <h3>Comparación por prompt — Tokens/segundo</h3>
+    <p class="subtitle">Cada grupo = un prompt. Barras = configuraciones. Mayor = más rápido.</p>
+    <div class="chart-container" style="max-height: 500px;"><canvas id="chartPrompt"></canvas></div>
+  </div>
+
+  <!-- Chart 4: Per-prompt comparison — Total time -->
+  <div class="chart-card full-width">
+    <h3>Comparación por prompt — Tiempo total (segundos)</h3>
+    <p class="subtitle">Cada grupo = un prompt. Barras = configuraciones. Menor = más rápido.</p>
+    <div class="chart-container" style="max-height: 500px;"><canvas id="chartPromptTime"></canvas></div>
+  </div>
+
+  <!-- Chart 5: Rank bar chart -->
+  <div class="chart-card">
+    <h3>Ranking general de configuraciones</h3>
+    <p class="subtitle">Del #1 (mejor) al #8 (peor)</p>
+    <div class="chart-container"><canvas id="chartRank"></canvas></div>
+  </div>
+
+  <!-- Chart 6: Category best configs -->
+  <div class="chart-card">
+    <h3>Mejor configuración por categoría</h3>
+    <p class="subtitle">Tiempo más bajo por tipo de tarea</p>
+    <div class="chart-container"><canvas id="chartCategory"></canvas></div>
+  </div>
+
+</div>
+
+<!-- Table -->
+<div class="chart-card full-width" style="margin-bottom: 32px;">
+  <h3>Tabla completa — Métricas agregadas por configuración</h3>
+  <p class="subtitle">Ordenado por ranking (#1 = mejor)</p>
+  <div class="config-table-wrap" style="margin-top: 16px;">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>Configuración</th><th>Tokens/seg (avg)</th><th>Tiempo (avg, s)</th><th>Prompts con datos</th><th>Proms ganados</th><th>Versión de energía</th>
+        </tr>
+      </thead>
+      <tbody id="configTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Recommendations -->
+<div class="recommendations">
+  <h3>&#128227; Recomendaciones del benchmark</h3>
+  <div class="rec-grid">
+    <div class="rec-card">
+      <div class="tag">Mejor configuración general</div>
+      <div class="cmd">--n-cpu-moe 8 --ubatch-size 128 -ngl 99 -c 65536</div>
+      <p>31.36 tok/s promedio · #1 en 4 de 6 prompts</p>
+    </div>
+    <div class="rec-card">
+      <div class="tag">Mejor para respuestas cortas</div>
+      <div class="cmd">-alto-rendimiento (-ngl 99, -c 98304)</div>
+      <p>Rápida en prompts con menos tokens generados</p>
+    </div>
+    <div class="rec-card">
+      <div class="tag">Config recomendada Opencode</div>
+      <div class="cmd">-ngl 28 + moe8 + c65536 + hp</div>
+      <p>127.78s avg — pero NO óptima (ver hallazgo clave abajo)</p>
+    </div>
+  </div>
+</div>
+
+<!-- Key Findings -->
+<div class="findings">
+  <h3>&#128161; Hallazgos clave</h3>
+  <ul>
+    <li><code>-ngl 28</code> es contraproducente para Qwen3.6-35B-A3B MoE — necesita más GPU coverage para funcionar bien</li>
+    <li><code>--n-cpu-moe 8</code> con contexto medio (65536) es más consistente que valores altos (16-20)</li>
+    <li><code>--ubatch-size 64 vs 128</code>: diferencia mínima en throughput (~1 tok/s), ubatch64 mejor time de prompt eval</li>
+    <li>Para respuestas largas (&gt;3000 tokens): el gap entre configs se amplifica — moe8 tarda ~102s vs -ngl28 que tarda ~172s (+69%)</li>
+    <li><code>max_tokens</code> debe ser &gt;= 4096 para prompts que generan código extenso</li>
+  </ul>
+</div>
+
+<script>
+// ── Data ────────────────────────────────────────────────
+const configs = [
+  { name: 'moe-8 + c65536 + ngl99',       tps: 31.36, avgSec: 102.74, rank: 1, power: 'HP' },
+  { name: 'n-cpu-moe-12',                   tps: 27.10, avgSec: 105.50, rank: 2, power: 'HP' },
+  { name: 'alto-rendimiento (ngl99+c98304)', tps: 24.63, avgSec: 119.37, rank: 3, power: 'HP' },
+  { name: 'n-cpu-moe-14',                   tps: 25.73, avgSec: 124.64, rank: 4, power: 'HP' },
+  { name: 'opencode-recommend',             tps: 22.00, avgSec: 127.78, rank: 5, power: 'HP' },
+  { name: 'n-cpu-moe-16+ubatch128',        tps: 23.74, avgSec: 143.80, rank: 6, power: 'Eco' },
+  { name: 'ubatch-128 only',                tps: 22.46, avgSec: 139.54, rank: 7, power: 'Eco' },
+  { name: 'n-cpu-moe-20+ubatch64',         tps: 20.26, avgSec: 158.75, rank: 8, power: 'Eco' },
+];
+
+// Per-prompt data (tps values)
+const prompts = [
+  { name: '#1 — Validación email (~400 tok)', values: [null, null, null, 24.16, 24.55, 26.65, 31.36, null] },
+  { name: '#2 — Migración compleja (~3000 tok)', values: [29.36, 23.55, 24.08, 25.94, 25.93, 25.97, 26.00, null] },
+  { name: '#3 — Factorial + tests (~2500 tok)', values: [20.21, 22.70, 24.00, 24.64, 26.09, 27.35, 31.73, null] },
+  { name: '#4 — Conexión MySQL PDO (~3000 tok)', values: [20.07, 22.69, 23.84, 24.35, 25.86, 27.10, 31.76, null] },
+  { name: '#5 — Refactorizar do() (~2400 tok)', values: [null, null, null, 24.63, 25.97, 27.07, 31.73, null] },
+  { name: '#6 — Explicar include/require (~3000 tok)', values: [19.76, 22.72, null, 24.63, 25.98, 27.26, 31.23, null] },
+];
+
+const configKeys = [
+  'n-cpu-moe-20+ubatch64', 'ubatch-128 only', 'n-cpu-moe-16+ubatch128',
+  'alto-rendimiento (ngl99+c98304)', 'n-cpu-moe-14', 'n-cpu-moe-12',
+  'moe-8 + c65536 + ngl99', 'opencode-recommend'
+];
+
+// Category data
+const categories = [
+  { name: 'Validación', time: 121.85 },
+  { name: 'OOP', time: 74.71 },
+  { name: 'Algoritmo+Testing', time: 72.81 },
+  { name: 'Database', time: 95.31 },
+  { name: 'Refactorización', time: 77.15 },
+  { name: 'Teoría', time: 98.32 },
+];
+
+// ── Chart defaults ──────────────────────────────────────
+Chart.defaults.color = '#8890a0';
+Chart.defaults.borderColor = '#2a2d3e';
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+
+function getColors(n) {
+  const palette = [
+    '#6c63ff','#00cec9','#2ecc71','#f39c12','#e74c3c','#9b59b6','#3498db','#e67e22'
+  ];
+  return palette.slice(0, n);
+}
+
+function makeGradient(ctx, color) {
+  const g = ctx.createLinearGradient(0, 0, 0, 350);
+  g.addColorStop(0, color + 'cc');
+  g.addColorStop(1, color + '44');
+  return g;
+}
+
+// ── Chart 1: TPS bar ────────────────────────────────────
+new Chart(document.getElementById('chartTps'), {
+  type: 'bar',
+  data: {
+    labels: configs.map(c => c.name),
+    datasets: [{
+      label: 'Tokens/seg (promedio)',
+      data: configs.map(c => c.tps),
+      backgroundColor: configs.map((_, i) => {
+        const colors = ['#2ecc71','#bada55','#f39c12','#e67e22','#3498db','#9b59b6','#e74c3c','#8890a0'];
+        return colors[i];
+      }),
+      borderRadius: 6, borderSkipped: false,
+    }]
+  },
+  options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { x: { grid: { color: '#2a2d3e' } } }
+  }
+});
+
+// ── Chart 2: Avg time bar ───────────────────────────────
+new Chart(document.getElementById('chartTime'), {
+  type: 'bar',
+  data: {
+    labels: configs.map(c => c.name),
+    datasets: [{
+      label: 'Segundos promedio',
+      data: configs.map(c => c.avgSec),
+      backgroundColor: configs.map((_, i) => {
+        const colors = ['#2ecc71','#bada55','#f39c12','#e67e22','#3498db','#9b59b6','#e74c3c','#8890a0'];
+        return colors[i];
+      }),
+      borderRadius: 6, borderSkipped: false,
+    }]
+  },
+  options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { x: { grid: { color: '#2a2d3e' } } }
+  }
+});
+
+// ── Chart 3: Per-prompt TPS (grouped) ───────────────────
+const promptDatasets = configKeys.map((key, ci) => ({
+  label: key,
+  data: prompts.map(p => p.values[ci]),
+  backgroundColor: ['#e74c3c','#8890a0','#9b59b6','#e67e22','#3498db','#2ecc71','#f39c12','#00cec9'][ci] + 'cc',
+  borderRadius: 4, borderSkipped: false,
+}));
+
+new Chart(document.getElementById('chartPrompt'), {
+  type: 'bar',
+  data: { labels: prompts.map(p => p.name), datasets: promptDatasets },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 10 } } } },
+    scales: { x: { stacked: false, grid: { color: '#2a2d3e' }, ticks: { maxRotation: 45, font: { size: 10 } } }, y: { title: { display: true, text: 'Tokens/seg', color: '#8890a0' }, grid: { color: '#2a2d3e' } } }
+  }
+});
+
+// ── Chart 4: Per-prompt time (grouped) ──────────────────
+const timeDatasets = configKeys.map((key, ci) => ({
+  label: key,
+  data: prompts.map(p => {
+    const tps = p.values[ci];
+    return tps ? (p.name.match(/~(\d+)/)?.[1] || 3000) / tps : null;
+  }),
+  backgroundColor: ['#e74c3c','#8890a0','#9b59b6','#e67e22','#3498db','#2ecc71','#f39c12','#00cec9'][ci] + 'cc',
+  borderRadius: 4, borderSkipped: false,
+}));
+
+new Chart(document.getElementById('chartPromptTime'), {
+  type: 'bar',
+  data: { labels: prompts.map(p => p.name), datasets: timeDatasets },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 10 } } } },
+    scales: { x: { grid: { color: '#2a2d3e' }, ticks: { maxRotation: 45, font: { size: 10 } } }, y: { title: { display: true, text: 'Segundos', color: '#8890a0' }, grid: { color: '#2a2d3e' } } }
+  }
+});
+
+// ── Chart 5: Rank (horizontal) ──────────────────────────
+new Chart(document.getElementById('chartRank'), {
+  type: 'bar',
+  data: {
+    labels: configs.map(c => `#${c.rank} — ${c.name}`),
+    datasets: [{
+      label: 'Tokens/seg',
+      data: configs.map(c => c.tps),
+      backgroundColor: ['#2ecc71','#bada55','#f39c12','#e67e22','#3498db','#9b59b6','#e74c3c','#8890a0'],
+      borderRadius: 6, borderSkipped: false,
+    }]
+  },
+  options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { x: { grid: { color: '#2a2d3e' } } }
+  }
+});
+
+// ── Chart 6: Category best times ────────────────────────
+new Chart(document.getElementById('chartCategory'), {
+  type: 'bar',
+  data: {
+    labels: categories.map(c => c.name),
+    datasets: [{
+      label: 'Tiempo mejor (s)',
+      data: categories.map(c => c.time),
+      backgroundColor: ['#6c63ff','#00cec9','#2ecc71','#f39c12','#e67e22','#9b59b6'],
+      borderRadius: 6, borderSkipped: false,
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { y: { title: { display: true, text: 'Segundos', color: '#8890a0' }, grid: { color: '#2a2d3e' } }, x: { grid: { display: false } } }
+  }
+});
+
+// ── Table ────────────────────────────────────────────────
+const tableBody = document.getElementById('configTableBody');
+configs.forEach((c, i) => {
+  const tr = document.createElement('tr');
+  const rankClass = c.rank <= 3 ? `rank-${c.rank}` : '';
+  tr.innerHTML = `
+    <td class="${rankClass}">#${c.rank}</td>
+    <td>${c.name}</td>
+    <td style="font-weight:600;color:${c.tps >= 25 ? 'var(--green)' : c.tps >= 22 ? 'var(--orange)' : 'var(--red)'}">${c.tps}</td>
+    <td style="font-weight:600;color:${c.avgSec <= 110 ? 'var(--green)' : c.avgSec <= 130 ? 'var(--orange)' : 'var(--red)'}">${c.avgSec.toFixed(1)}s</td>
+    <td>6</td>
+    <td>—</td>
+    <td><span style="color:${c.power === 'HP' ? 'var(--green)' : 'var(--muted)'}">${c.power === 'HP' ? '&#9889; High Performance' : '&#9851; Economy'}</span></td>
+  `;
+  tableBody.appendChild(tr);
+});
+</script>
+
+</body>
+</html>
