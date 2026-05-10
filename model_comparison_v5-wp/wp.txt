@@ -1,0 +1,53 @@
+# lmstudio-community\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-Q4_K_M.gguf
+
+[1/2] "Crea un plugin de WordPress completo que registre un Custom Post Type 'eventos' con taxonomia personalizada 'categorias-evento'. Debe incluir: pagina admin propia con tabla personalizada usando WP_List_Table, meta boxes para fecha/lugar/precio, shortcode [eventos_proximos] que muestre eventos ordenados por fecha con paginacion, hooks wp_enqueue_script para CSS/JS propios, y sanitizacion/validacion completa de inputs." 
+
+--n-cpu-moe 8   -c 65536 --cache-type-k q4_0  y --cache-type-v q4_0 --ubatch-size 128
+prompt eval time =     326.31 ms /   102 tokens (    3.20 ms per token,   312.59 tokens per second)
+       eval time = 1159310.50 ms / 30939 tokens (   37.47 ms per token,    26.69 tokens per second)
+      total time = 1159636.80 ms / 31041 tokens
+
+--n-cpu-moe 8   -c 65536 --cache-type-k q8_0 y --cache-type-v q8_0 --ubatch-size 128
+prompt eval time =     300.72 ms /   102 tokens (    2.95 ms per token,   339.19 tokens per second)
+       eval time =  375429.15 ms / 11535 tokens (   32.55 ms per token,    30.72 tokens per second)
+      total time =  375729.87 ms / 11637 tokens
+
+--n-cpu-moe 8   -c 65536 --cache-type-k q8_0 y --cache-type-v q8_0 --ubatch-size 256
+prompt eval time =     437.42 ms /   102 tokens (    4.29 ms per token,   233.19 tokens per second)
+       eval time =  255450.67 ms /  8312 tokens (   30.73 ms per token,    32.54 tokens per second)
+      total time =  255888.09 ms /  8414 tokens
+
+--spec-type ngram-mod --spec-draft-n-max 64 --spec-draft-n-min 48
+prompt eval time =     421.58 ms /   102 tokens (    4.13 ms per token,   241.95 tokens per second)
+       eval time =  315221.11 ms /  8604 tokens (   36.64 ms per token,    27.30 tokens per second)
+      total time =  315642.69 ms /  8706 tokens
+draft acceptance rate = 0.09375 (    6 accepted /    64 generated)
+
+[2/2] "Desarrolla una extension de WordPress para sincronizar productos externos via REST API: debe incluir clase principal con hook init, cron schedule para sync automatica cada X horas, endpoint wp_remote_get con timeout/retry, parseo de response JSON y creacion/actualizacion de productos como CPT 'producto', meta fields para precio/stock/imagen_url, action 'wp' para limpieza de transients caducados, y logging via WP_Error. Incluye comentario DocBlock en cada metodo."
+
+--n-cpu-moe 8   -c 65536 --cache-type-k q4_0  y --cache-type-v q4_0 --ubatch-size 128
+prompt eval time =     290.51 ms /   109 tokens (    2.67 ms per token,   375.21 tokens per second)
+       eval time =  251388.54 ms /  8127 tokens (   30.93 ms per token,    32.33 tokens per second)
+      total time =  251679.05 ms /  8236 tokens
+
+--n-cpu-moe 8   -c 65536 --cache-type-k q8_0 y --cache-type-v q8_0 --ubatch-size 128
+prompt eval time =     302.80 ms /   109 tokens (    2.78 ms per token,   359.97 tokens per second)
+       eval time =  303591.98 ms /  9380 tokens (   32.37 ms per token,    30.90 tokens per second)
+      total time =  303894.78 ms /  9489 tokens
+
+--n-cpu-moe 8   -c 65536 --cache-type-k q8_0 y --cache-type-v q8_0 --ubatch-size 256
+prompt eval time =     281.37 ms /   109 tokens (    2.58 ms per token,   387.39 tokens per second)
+       eval time =  247006.76 ms /  8203 tokens (   30.11 ms per token,    33.21 tokens per second)
+      total time =  247288.13 ms /  8312 tokens
+
+--spec-type ngram-mod --spec-draft-n-max 64 --spec-draft-n-min 48
+prompt eval time =     352.05 ms /   109 tokens (    3.23 ms per token,   309.61 tokens per second)
+       eval time =  318385.56 ms /  8353 tokens (   38.12 ms per token,    26.24 tokens per second)
+      total time =  318737.61 ms /  8462 tokens
+draft acceptance rate = 0.06771 (   26 accepted /   384 generated)
+
+
+
+
+
+  --chat-template-kwargs "{\"preserve_thinking\":true}" ^
