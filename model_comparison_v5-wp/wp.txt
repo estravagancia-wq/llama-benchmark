@@ -1,0 +1,13 @@
+# lmstudio-community\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-Q4_K_M.gguf
+
+[1/2] "Crea un plugin de WordPress completo que registre un Custom Post Type 'eventos' con taxonomia personalizada 'categorias-evento'. Debe incluir: pagina admin propia con tabla personalizada usando WP_List_Table, meta boxes para fecha/lugar/precio, shortcode [eventos_proximos] que muestre eventos ordenados por fecha con paginacion, hooks wp_enqueue_script para CSS/JS propios, y sanitizacion/validacion completa de inputs." 
+--n-cpu-moe 8  y -c 65536
+prompt eval time =     326.31 ms /   102 tokens (    3.20 ms per token,   312.59 tokens per second)
+       eval time = 1159310.50 ms / 30939 tokens (   37.47 ms per token,    26.69 tokens per second)
+      total time = 1159636.80 ms / 31041 tokens
+
+[2/2] "Desarrolla una extension de WordPress para sincronizar productos externos via REST API: debe incluir clase principal con hook init, cron schedule para sync automatica cada X horas, endpoint wp_remote_get con timeout/retry, parseo de response JSON y creacion/actualizacion de productos como CPT 'producto', meta fields para precio/stock/imagen_url, action 'wp' para limpieza de transients caducados, y logging via WP_Error. Incluye comentario DocBlock en cada metodo."
+--n-cpu-moe 8  y -c 65536
+prompt eval time =     290.51 ms /   109 tokens (    2.67 ms per token,   375.21 tokens per second)
+       eval time =  251388.54 ms /  8127 tokens (   30.93 ms per token,    32.33 tokens per second)
+      total time =  251679.05 ms /  8236 tokens
