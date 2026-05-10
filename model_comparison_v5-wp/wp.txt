@@ -17,7 +17,11 @@ prompt eval time =     437.42 ms /   102 tokens (    4.29 ms per token,   233.19
        eval time =  255450.67 ms /  8312 tokens (   30.73 ms per token,    32.54 tokens per second)
       total time =  255888.09 ms /  8414 tokens
 
-
+--spec-type ngram-mod --spec-draft-n-max 64 --spec-draft-n-min 48
+prompt eval time =     421.58 ms /   102 tokens (    4.13 ms per token,   241.95 tokens per second)
+       eval time =  315221.11 ms /  8604 tokens (   36.64 ms per token,    27.30 tokens per second)
+      total time =  315642.69 ms /  8706 tokens
+draft acceptance rate = 0.09375 (    6 accepted /    64 generated)
 
 [2/2] "Desarrolla una extension de WordPress para sincronizar productos externos via REST API: debe incluir clase principal con hook init, cron schedule para sync automatica cada X horas, endpoint wp_remote_get con timeout/retry, parseo de response JSON y creacion/actualizacion de productos como CPT 'producto', meta fields para precio/stock/imagen_url, action 'wp' para limpieza de transients caducados, y logging via WP_Error. Incluye comentario DocBlock en cada metodo."
 
@@ -35,6 +39,14 @@ prompt eval time =     302.80 ms /   109 tokens (    2.78 ms per token,   359.97
 prompt eval time =     281.37 ms /   109 tokens (    2.58 ms per token,   387.39 tokens per second)
        eval time =  247006.76 ms /  8203 tokens (   30.11 ms per token,    33.21 tokens per second)
       total time =  247288.13 ms /  8312 tokens
+
+--spec-type ngram-mod --spec-draft-n-max 64 --spec-draft-n-min 48
+prompt eval time =     352.05 ms /   109 tokens (    3.23 ms per token,   309.61 tokens per second)
+       eval time =  318385.56 ms /  8353 tokens (   38.12 ms per token,    26.24 tokens per second)
+      total time =  318737.61 ms /  8462 tokens
+draft acceptance rate = 0.06771 (   26 accepted /   384 generated)
+
+
 
 
 

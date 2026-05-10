@@ -1,0 +1,73 @@
+# Configuración del servidor
+
+.\llama-server.exe ^
+  -m "C:\Users\estravagancia\.lmstudio\models\lmstudio-community\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-Q4_K_M.gguf" ^
+  -c 65536 ^
+  -ngl 99 ^
+  -np 1 ^
+  --spec-type ngram-mod ^
+  --spec-draft-n-max 64 ^
+  --spec-draft-n-min 48 ^
+  --n-cpu-moe 8 ^
+  --flash-attn on ^
+  --cache-type-k q8_0 ^
+  --cache-type-v q8_0 ^
+  --no-mmap ^
+  --ubatch-size 256 ^
+  -b 512 ^
+  --temp 0.6 ^
+  --top-k 20 ^
+  --top-p 0.95 ^
+  --repeat-penalty 1.05 ^
+  --repeat-last-n 256 ^
+  --presence-penalty 0.0 ^
+  --frequency-penalty 0.1 ^
+  --mirostat 0 ^
+  --host 0.0.0.0 ^
+  --port 8080
+
+
+# Benchmark
+
+[1/6] "Crea un Custom Post Type llamado 'libro' con soporte para título, editor, thumbnail y campos personalizados. Registra la función en init."
+prompt eval time =     285.59 ms /    40 tokens (    7.14 ms per token,   140.06 tokens per second)
+       eval time =  145251.38 ms /  3551 tokens (   40.90 ms per token,    24.45 tokens per second)
+      total time =  145536.97 ms /  3591 tokens
+draft acceptance rate = 0.09255 (   77 accepted /   832 generated)
+
+
+[2/6] "Crea un Custom Post Type llamado 'autor con soporte para título, editor, thumbnail y campos personalizados. Registra la función en init."
+prompt eval time =     236.49 ms /    38 tokens (    6.22 ms per token,   160.68 tokens per second)
+       eval time =  122611.36 ms /  3019 tokens (   40.61 ms per token,    24.62 tokens per second)
+      total time =  122847.85 ms /  3057 tokens
+draft acceptance rate = 0.08507 (   49 accepted /   576 generated)
+
+
+[3/6] "Crea un Custom Post Type llamado 'editorial' con soporte para título, editor, thumbnail y campos personalizados. Registra la función en init."
+
+prompt eval time =     236.84 ms /    40 tokens (    5.92 ms per token,   168.89 tokens per second)
+       eval time =  189634.57 ms /  4746 tokens (   39.96 ms per token,    25.03 tokens per second)
+      total time =  189871.41 ms /  4786 tokens
+draft acceptance rate = 0.12370 (   95 accepted /   768 generated)
+
+
+[4/6] "Crea una taxonomía jerárquica 'género' para el CPT 'libro'. Registra la función en init."
+prompt eval time =     214.94 ms /    39 tokens (    5.51 ms per token,   181.44 tokens per second)
+       eval time =   87160.15 ms /  2520 tokens (   34.59 ms per token,    28.91 tokens per second)
+      total time =   87375.10 ms /  2559 tokens
+draft acceptance rate = 0.17188 (   11 accepted /    64 generated)
+
+
+[5/6] "Crea una taxonomía jerárquica 'país' para el CPT 'autor'. Registra la función en init."
+prompt eval time =     198.56 ms /    38 tokens (    5.23 ms per token,   191.38 tokens per second)
+       eval time =   70957.96 ms /  2055 tokens (   34.53 ms per token,    28.96 tokens per second)
+      total time =   71156.53 ms /  2093 tokens
+draft acceptance rate = 0.17969 (   23 accepted /   128 generated)
+
+
+[6/6] "Añade una metabox 'Detalles del libro' con los campos: editorial, año, ISBN. Incluye funciones de renderizado y guardado con sanitización."
+prompt eval time =     216.12 ms /    44 tokens (    4.91 ms per token,   203.60 tokens per second)
+       eval time =   98955.31 ms /  2839 tokens (   34.86 ms per token,    28.69 tokens per second)
+      total time =   99171.43 ms /  2883 tokens
+draft acceptance rate = 0.11932 (   84 accepted /   704 generated)
+

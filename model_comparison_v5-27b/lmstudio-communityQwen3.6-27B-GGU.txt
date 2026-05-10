@@ -1,0 +1,11 @@
+# lmstudio-community\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_K_M.gguf
+
+prompt eval time =     373.18 ms /    44 tokens (    8.48 ms per token,   117.91 tokens per second)
+       eval time =  324081.16 ms /  3120 tokens (  103.87 ms per token,     9.63 tokens per second)
+      total time =  324454.33 ms /  3164 tokens
+
+
+
+
+
+

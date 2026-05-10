@@ -49,8 +49,6 @@ prompt eval time =     248.80 ms /    44 tokens (    5.65 ms per token,   176.85
        eval time =  107110.47 ms /  3726 tokens (   28.75 ms per token,    34.79 tokens per second)
       total time =  107359.27 ms /  3770 tokens
 
-
-
 [2/6] "Crea una clase PHP User con propiedades private: id, name, email, password. Incluye constructor, getters/setters, y un metodo validate() que devuelva true si email y password cumplen unos criterios basicos (email valido, password minimo 8 caracteres).",
 --cache-type-k q4_0 ^
 --cache-type-v q4_0 ^
