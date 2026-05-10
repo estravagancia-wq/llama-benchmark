@@ -21,16 +21,16 @@ server.bat (se ejecuta el primero)
 @echo off
 .\llama-server.exe ^
   -m "C:\Users\estravagancia\.lmstudio\models\lmstudio-community\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-Q4_K_M.gguf" ^
-  -c 98304 ^
+  -c 65536 ^
   -ngl 99 ^
   -np 1 ^
   --chat-template-kwargs "{\"preserve_thinking\":true}" ^
-  --n-cpu-moe 12 ^
-  --no-mmap ^
+  --n-cpu-moe 8 ^
   --flash-attn on ^
-  --ubatch-size 128 ^
   --cache-type-k q4_0 ^
   --cache-type-v q4_0 ^
+  --no-mmap ^
+  --ubatch-size 64 ^
   -b 512 ^
   --temp 0.6 ^
   --top-k 20 ^
