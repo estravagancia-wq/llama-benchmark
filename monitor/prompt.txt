@@ -1,0 +1,3 @@
+en el proyecto Blog C:\Users\estravagancia\Documents\webs\estravagancia\blog
+
+@wp-content\themes\estravagancia comprueba usando el skill php-wp

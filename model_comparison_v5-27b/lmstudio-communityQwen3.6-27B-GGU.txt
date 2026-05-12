@@ -1,11 +1,16 @@
 # lmstudio-community\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_K_M.gguf
 
+[1/6] "Escribe una funcion PHP que valide una direccion de email usando filter_var y tambien una validacion extra (dominio no numerico, longitud maxima 255).",
+
 prompt eval time =     373.18 ms /    44 tokens (    8.48 ms per token,   117.91 tokens per second)
        eval time =  324081.16 ms /  3120 tokens (  103.87 ms per token,     9.63 tokens per second)
       total time =  324454.33 ms /  3164 tokens
 
 
+[2/6] "Crea una clase PHP User con propiedades private: id, name, email, password. Incluye constructor, getters/setters, y un metodo validate() que devuelva true si email y password cumplen unos criterios basicos (email valido, password minimo 8 caracteres).",
 
-
+prompt eval time =     265.18 ms /    63 tokens (    4.21 ms per token,   237.57 tokens per second)
+       eval time =  239882.29 ms /  2493 tokens (   96.22 ms per token,    10.39 tokens per second)
+      total time =  240147.47 ms /  2556 tokens
 
 

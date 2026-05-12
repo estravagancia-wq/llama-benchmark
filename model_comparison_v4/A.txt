@@ -49,6 +49,15 @@ prompt eval time =     248.80 ms /    44 tokens (    5.65 ms per token,   176.85
        eval time =  107110.47 ms /  3726 tokens (   28.75 ms per token,    34.79 tokens per second)
       total time =  107359.27 ms /  3770 tokens
 
+--cpu-threads 8 -c 98304
+prompt eval time =     223.14 ms /    44 tokens (    5.07 ms per token,   197.19 tokens per second)
+       eval time =  130982.39 ms /  4096 tokens (   31.98 ms per token,    31.27 tokens per second)
+      total time =  131205.53 ms /  4140 tokens
+----- --cpu-threads 8 -c 65536
+prompt eval time =     361.19 ms /    44 tokens (    8.21 ms per token,   121.82 tokens per second)
+       eval time =  110774.87 ms /  3793 tokens (   29.21 ms per token,    34.24 tokens per second)
+      total time =  111136.06 ms /  3837 tokens
+
 [2/6] "Crea una clase PHP User con propiedades private: id, name, email, password. Incluye constructor, getters/setters, y un metodo validate() que devuelva true si email y password cumplen unos criterios basicos (email valido, password minimo 8 caracteres).",
 --cache-type-k q4_0 ^
 --cache-type-v q4_0 ^
@@ -95,6 +104,14 @@ prompt eval time =     222.01 ms /    63 tokens (    3.52 ms per token,   283.77
        eval time =   72488.51 ms /  2520 tokens (   28.77 ms per token,    34.76 tokens per second)
       total time =   72710.52 ms /  2583 tokens
 
+--cpu-threads 8 -c 98304
+prompt eval time =     244.74 ms /    63 tokens (    3.88 ms per token,   257.41 tokens per second)
+       eval time =   69352.22 ms /  2193 tokens (   31.62 ms per token,    31.62 tokens per second)
+      total time =   69596.97 ms /  2256 tokens
+----- --cpu-threads 8 -c 65536
+prompt eval time =     713.82 ms /    63 tokens (   11.33 ms per token,    88.26 tokens per second)
+       eval time =   77319.55 ms /  2575 tokens (   30.03 ms per token,    33.30 tokens per second)
+      total time =   78033.37 ms /  2638 tokens
 
 [3/6] "Implementa una funcion recursiva factorial(\$n) en PHP que maneje numeros negativos lanzando una excepcion. Ademas, escribe los test unitarios usando PHPUnit para esta funcion.",
 --cache-type-k q4_0 ^
@@ -142,6 +159,14 @@ prompt eval time =     201.18 ms /    47 tokens (    4.28 ms per token,   233.62
        eval time =   84723.71 ms /  2947 tokens (   28.75 ms per token,    34.78 tokens per second)
       total time =   84924.89 ms /  2994 tokens
 
+--cpu-threads 8 -c 98304
+prompt eval time =     222.09 ms /    47 tokens (    4.73 ms per token,   211.62 tokens per second)
+       eval time =   96634.14 ms /  3054 tokens (   31.64 ms per token,    31.60 tokens per second)
+      total time =   96856.23 ms /  3101 tokens
+----- --cpu-threads 8 -c 65536
+prompt eval time =     200.48 ms /    47 tokens (    4.27 ms per token,   234.44 tokens per second)
+       eval time =  105322.28 ms /  3466 tokens (   30.39 ms per token,    32.91 tokens per second)
+      total time =  105522.76 ms /  3513 tokens
 
 [4/6] "Escribe un snippet PHP que conecte a una base de datos MySQL usando PDO, ejecute una consulta SELECT con parametros seguros (prepared statement) y devuelva los resultados como un array asociativo. Incluye manejo de excepciones.",
 --cache-type-k q4_0 ^
@@ -189,6 +214,14 @@ prompt eval time =     209.81 ms /    56 tokens (    3.75 ms per token,   266.91
        eval time =   60806.73 ms /  2117 tokens (   28.72 ms per token,    34.82 tokens per second)
       total time =   61016.54 ms /  2173 tokens
 
+--cpu-threads 8 -c 98304
+prompt eval time =     230.36 ms /    56 tokens (    4.11 ms per token,   243.10 tokens per second)
+       eval time =   82743.98 ms /  2601 tokens (   31.81 ms per token,    31.43 tokens per second)
+      total time =   82974.34 ms /  2657 tokens
+----- --cpu-threads 8 -c 65536
+prompt eval time =     208.72 ms /    56 tokens (    3.73 ms per token,   268.30 tokens per second)
+       eval time =   65943.38 ms /  2210 tokens (   29.84 ms per token,    33.51 tokens per second)
+      total time =   66152.10 ms /  2266 tokens
 
 [5/6] "Refactoriza el siguiente codigo PHP para que sea mas legible y use buenas practicas: function do(\$a,\$b){if(\$a>0){return \$a+\$b;}else{return \$a*\$b;}} (nota: 'do' es palabra reservada, cambiale el nombre).",
 --cache-type-k q4_0 ^
@@ -236,6 +269,15 @@ prompt eval time =     257.58 ms /    72 tokens (    3.58 ms per token,   279.52
        eval time =   52385.34 ms /  1824 tokens (   28.72 ms per token,    34.82 tokens per second)
       total time =   52642.92 ms /  1896 tokens
 
+--cpu-threads 8 -c 98304
+prompt eval time =     313.23 ms /    72 tokens (    4.35 ms per token,   229.86 tokens per second)
+       eval time =   84605.42 ms /  2671 tokens (   31.68 ms per token,    31.57 tokens per second)
+      total time =   84918.65 ms /  2743 tokens
+----- --cpu-threads 8 -c 65536
+prompt eval time =     288.90 ms /    72 tokens (    4.01 ms per token,   249.22 tokens per second)
+       eval time =   59221.96 ms /  1966 tokens (   30.12 ms per token,    33.20 tokens per second)
+      total time =   59510.87 ms /  2038 tokens
+
 [6/6] "Explica con ejemplos de codigo la diferencia entre include, require, include_once y require_once en PHP. Cuando usar cada uno."
 --cache-type-k q4_0 ^
 --cache-type-v q4_0 ^
@@ -282,4 +324,12 @@ prompt eval time =     188.01 ms /    36 tokens (    5.22 ms per token,   191.48
        eval time =   76489.21 ms /  2640 tokens (   28.97 ms per token,    34.51 tokens per second)
       total time =   76677.22 ms /  2676 tokens
 
+--cpu-threads 8 -c 98304
+prompt eval time =     203.51 ms /    36 tokens (    5.65 ms per token,   176.89 tokens per second)
+       eval time =   80108.96 ms /  2528 tokens (   31.69 ms per token,    31.56 tokens per second)
+      total time =   80312.47 ms /  2564 tokens
+----- --cpu-threads 8 -c 65536
+prompt eval time =     713.29 ms /    36 tokens (   19.81 ms per token,    50.47 tokens per second)
+       eval time =  102154.68 ms /  3348 tokens (   30.51 ms per token,    32.77 tokens per second)
+      total time =  102867.97 ms /  3384 tokens
 

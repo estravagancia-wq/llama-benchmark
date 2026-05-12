@@ -1,0 +1,23 @@
+@echo off
+.\llama-server.exe ^
+  -m "C:\Users\estravagancia\.lmstudio\models\lmstudio-community\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-Q4_K_M.gguf" ^
+  -c 65536 ^
+  -ngl 99 ^
+  -np 1 ^
+  --n-cpu-moe 20 ^
+  --threads 8 ^
+  --flash-attn auto ^
+  --cache-type-k q8_0 ^
+  --cache-type-v q8_0 ^
+  --no-mmap ^
+  --ubatch-size 512 ^
+  --cont-batching ^ 
+  -b 1024 ^
+  --temp 0.4 ^
+  --top-k 0 ^
+  --top-p 1.0 ^
+  --repeat-penalty 1.5 ^
+  --frequency-penalty 0.3 ^
+  --presence-penalty 0.2 ^
+  --host 0.0.0.0 ^
+  --port 8080

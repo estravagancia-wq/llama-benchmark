@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Benchmark Qwen3.6-35B-A3B</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --green: #3fb950;
+      --red: #f85149;
+      --yellow: #d29922;
+      --blue: #58a6ff;
+      --orange: #db6d28;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 24px;
+    }
+    h1 { font-size: 1.5em; margin-bottom: 8px; }
+    h2 { font-size: 1.2em; margin: 32px 0 16px; color: var(--blue); }
+    .subtitle { color: var(--muted); margin-bottom: 24px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      font-weight: 600;
+      margin: 2px 4px;
+    }
+    .badge-green { background: #23863620; color: var(--green); border: 1px solid var(--green); }
+    .badge-red { background: #da363320; color: var(--red); border: 1px solid var(--red); }
+    .badge-yellow { background: #9e6a0320; color: var(--yellow); border: 1px solid var(--yellow); }
+    .badge-blue { background: #0969da20; color: var(--blue); border: 1px solid var(--blue); }
+    .badge-orange { background: #bd5a0020; color: var(--orange); border: 1px solid var(--orange); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      background: var(--card);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px 14px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: #21262d;
+      color: var(--blue);
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td { font-size: 0.95em; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: #161b2280; }
+    .best { color: var(--green); font-weight: 600; }
+    .worst { color: var(--red); }
+    .good { color: var(--green); }
+    .ok { color: var(--yellow); }
+    .bad { color: var(--red); }
+    .param { font-family: monospace; color: var(--orange); }
+    .summary {
+      background: var(--card);
+      border-left: 4px solid var(--green);
+      padding: 16px;
+      margin: 24px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .summary h3 { margin-top: 0; color: var(--green); }
+    .plan {
+      background: var(--card);
+      border-radius: 6px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .plan-table { width: auto; }
+    .plan-table th { min-width: 120px; }
+  </style>
+</head>
+<body>
+  <h1>Benchmark: Qwen3.6-35B-A3B</h1>
+  <p class="subtitle">AMD RX 9070 XT 16GB | Ryzen 7 9800X3D | 64GB DDR5</p>
+
+  <div class="summary">
+    <h3>Sweet Spot Confirmado</h3>
+    <p><strong>--n-cpu-moe 16</strong> → TPS estable 22-24, RAM 19.7GB, cliff tardío 730 tok</p>
+    <p><strong>--n-cpu-moe 6</strong> → TPS similar (22.8), RAM 21.6GB, cliff temprano (577) pero recupera hasta 3682 tok</p>
+    <p><strong>Conclusión:</strong> Usar --n-cpu-moe 6 o 16. Evitar =8 (RAM 27GB). Cliff no desaparece pero --ubatch-size 256 puede mitigarlo.</p>
+  </div>
+
+  <h2>Comparativa General</h2>
+  <table>
+    <thead>
+      <tr><th>Métrica</th><th>8</th><th>6</th><th>16</th><th>20</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>TPS inicial</td><td>~20</td><td class="best">~23</td><td class="best">~23</td><td>~20</td></tr>
+      <tr><td>TPS estable</td><td class="worst">16-17</td><td class="best">22-24</td><td class="best">22-24</td><td class="ok">19-21</td></tr>
+      <tr><td>TPS mínimo</td><td class="ok">9.6</td><td class="best">11.3</td><td class="worst">3.1</td><td class="ok">5.9</td></tr>
+      <tr><td>Tokens antes de cliff</td><td class="worst">865</td><td class="best">3682</td><td>734</td><td>730</td></tr>
+      <tr><td>Tokens máx</td><td class="ok">2791</td><td class="best">3682</td><td>2237</td><td>2171</td></tr>
+      <tr><td>RAM máx</td><td class="worst">26.7 GB</td><td class="ok">21.6 GB</td><td class="best">19.7 GB</td><td class="best">18.6 GB</td></tr>
+      <tr><td>RAM típica</td><td class="worst">25-27</td><td class="ok">18-21</td><td class="best">16-19</td><td class="best">16-19</td></tr>
+      <tr><td>Colapsos TPS</td><td>7</td><td class="best">6</td><td>6</td><td>6</td></tr>
+      <tr><td>Duración</td><td class="worst">14 min</td><td class="ok">9 min</td><td>8 min</td><td class="best">7 min</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Comparativa por Valor de --n-cpu-moe</h2>
+  <table>
+    <thead>
+      <tr><th>Parámetro</th><th>TPS estable</th><th>RAM máx</th><th>Cliff</th><th>Estado</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="param">--n-cpu-moe 6</td><td class="best">22-24</td><td class="ok">21.6 GB</td><td>577 → 3682</td><td><span class="badge badge-green">Mejor tokens</span></td></tr>
+      <tr><td class="param">--n-cpu-moe 16</td><td class="best">22-24</td><td class="best">19.7 GB</td><td>730 → 2237</td><td><span class="badge badge-green">Sweet spot</span></td></tr>
+      <tr><td class="param">--n-cpu-moe 20</td><td class="ok">19-21</td><td class="best">18.6 GB</td><td>730 → 2171</td><td><span class="badge badge-blue">Equilibrio</span></td></tr>
+      <tr><td class="param">--n-cpu-moe 8</td><td class="worst">16-17</td><td class="worst">26.7 GB</td><td>865 → 2791</td><td><span class="badge badge-red">Descartado</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Plan de Pruebas Pendientes</h2>
+  <div class="plan">
+    <table class="plan-table">
+      <thead><tr><th>#</th><th>Parámetro</th><th>Valor</th><th>Razón</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td>7</td><td>--ubatch-size</td><td>256</td><td>Reducir batch → menor cliff</td><td>🔄 Ejecutando</td></tr>
+        <tr><td>8</td><td>--ubatch-size</td><td>1024</td><td>Aumentar batch → más throughput</td><td>⬜ Pendiente</td></tr>
+        <tr><td>9</td><td>-b</td><td>2048</td><td>Mayor batch size</td><td>⬜ Pendiente</td></tr>
+        <tr><td>10</td><td>--threads</td><td>16</td><td>Más threads CPU</td><td>⬜ Pendiente</td></tr>
+        <tr><td>11</td><td>--cache-type</td><td>f16</td><td>Cache F16 vs Q8_0</td><td>⬜ Pendiente</td></tr>
+        <tr><td>12</td><td>--n-cpu-moe</td><td>24</td><td>Más CPU posible</td><td>⬜ Pendiente</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:32px; color:var(--muted); font-size:0.85em;">
+    <p><strong>Config base:</strong> Qwen3.6-35B-A3B-Q4_K_M | -c 65536 | -ngl 99 | --threads 8 | --ubatch-size 512 | -b 1024 | --cache-type-k/v q8_0</p>
+  </div>
+</body>
+</html>

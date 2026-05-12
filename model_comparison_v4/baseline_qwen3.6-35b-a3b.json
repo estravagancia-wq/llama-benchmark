@@ -4,20 +4,20 @@
     "server": "llama-server",
     "benchmark_date": "2026-05-10",
     "prompt_count": 6,
-    "configurations_tested": 8,
-    "description": "Baseline completo de rendimiento Qwen3.6-35B-A3B con 8 configuraciones de llama-server",
+    "configurations_tested": 7,
+    "description": "Baseline completo de rendimiento Qwen3.6-35B-A3B con 7 configuraciones (opencode-recommend descartado por bajo rendimiento)",
     "environment_note": {
       "power_plan_change_point": "alto-rendimiento",
       "before_power_plan": "Windows Economy (ahorrador de energia)",
       "after_power_plan": "Windows High Performance",
       "context_size": "-c 98304 aplicado a TODAS las pruebas",
-      "gpu_layers_default": "-ngl 99 para todas las configs excepto opencode-recommend (-ngl 28)"
+      "gpu_layers_default": "-ngl 99 para todas las configs"
     }
   },
   "prompts": [
     {
       "index": 1,
-      "task": "Validar email con filter_var + validación extra (dominio no numerico, longitud max 255)",
+      "task": "Validar email con filter_var + validacion extra (dominio no numerico, longitud max 255)",
       "category": "validacion",
       "expected_tokens": "~400",
       "results_by_config": {
@@ -100,289 +100,37 @@
           "note": "unica con -c 65536 (contexto reducido)",
           "response_truncated": true
         },
-        "opencode-recommend_ngl28_moe8_c65536_hp": {
-          "prompt_eval_ms": 426.70,
-          "eval_ms": 171492.68,
-          "total_ms": 171919.38,
-          "total_sec": 171.92,
-          "completion_tokens": 3773,
-          "tokens_per_sec": 22.00,
+        "cache-k8_v8_hp_ngl99": {
+          "prompt_eval_ms": 248.80,
+          "eval_ms": 107110.47,
+          "total_ms": 107359.27,
+          "total_sec": 107.36,
+          "completion_tokens": 3726,
+          "tokens_per_sec": 34.79,
           "prompt_tokens": 44,
           "power_plan": "high-performance",
-          "note": "-ngl 28 + -c 65536 (ambas excepciones)",
+          "note": "--cache-type-k q8_0 --cache-type-v q8_0 — mejor tiempo total",
           "response_truncated": false
         }
       }
     },
-{
-      "id": "prompt_6",
-      "name": "Migración compleja con schema changes, model factories y seeders",
-      "category": "backend",
-      "complexity": "medium",
-      "description": "Migración que altera tabla existente, crea modelos con factory y seeder con datos realistas",
+    {
+      "index": 2,
+      "task": "Clase PHP User con propiedades private, constructor, getters/setters y validate()",
+      "category": "OOP",
+      "expected_tokens": "~2500",
       "results_by_config": {
         "moe-20_ubatch-64_economy": {
-          "prompt_eval_ms": 691.30,
-          "eval_ms": 103052.89,
-          "total_ms": 103744.19,
-          "total_sec": 103.74,
-          "completion_tokens": 3028,
-          "tokens_per_sec": 29.36,
+          "prompt_eval_ms": 396.39,
+          "eval_ms": 118961.06,
+          "total_ms": 119357.45,
+          "total_sec": 119.36,
+          "completion_tokens": 2365,
+          "tokens_per_sec": 19.88,
           "prompt_tokens": 63,
           "power_plan": "economy",
           "response_truncated": false
         },
-        "ubatch-128_only_economy": {
-          "prompt_eval_ms": 344.70,
-          "eval_ms": 117853.65,
-          "total_ms": 118198.35,
-          "total_sec": 118.20,
-          "completion_tokens": 2780,
-          "tokens_per_sec": 23.55,
-          "prompt_tokens": 63,
-          "power_plan": "economy",
-          "note": "unica con -c 98304 + ubatch-128 (sin moe)",
-          "response_truncated": false
-        },
-        "moe-16_ubatch-128_economy": {
-          "prompt_eval_ms": 356.40,
-          "eval_ms": 111692.22,
-          "total_ms": 112048.62,
-          "total_sec": 112.05,
-          "completion_tokens": 2694,
-          "tokens_per_sec": 24.08,
-          "prompt_tokens": 63,
-          "power_plan": "economy",
-          "response_truncated": false
-        },
-        "moe-8_alto-rendimiento_hp_ngl99_c98304": {
-          "prompt_eval_ms": 279.03,
-          "eval_ms": 117718.04,
-          "total_ms": 117997.07,
-          "total_sec": 117.99,
-          "completion_tokens": 3055,
-          "tokens_per_sec": 25.94,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "note": "HP + c98304 — más lenta de HP en este prompt (3er lugar)",
-          "response_truncated": false
-        },
-        "moe-14_hp_ngl99_c98304": {
-          "prompt_eval_ms": 260.80,
-          "eval_ms": 103865.14,
-          "total_ms": 104125.94,
-          "total_sec": 104.13,
-          "completion_tokens": 2697,
-          "tokens_per_sec": 25.93,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "response_truncated": false
-        },
-        "moe-12_hp_ngl99_c98304": {
-          "prompt_eval_ms": 256.80,
-          "eval_ms": 98074.34,
-          "total_ms": 98331.14,
-          "total_sec": 98.33,
-          "completion_tokens": 2549,
-          "tokens_per_sec": 25.97,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "response_truncated": false
-        },
-        "moe-8_c65536_hp_ngl99": {
-          "prompt_eval_ms": 259.70,
-          "eval_ms": 96874.28,
-          "total_ms": 97133.98,
-          "total_sec": 97.13,
-          "completion_tokens": 2524,
-          "tokens_per_sec": 26.00,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "note": "-c 65536 — más rápida del benchmark completo (2do lugar)",
-          "response_truncated": false
-        },
-        "opencode-recommend_ngl28_moe8_c65536_hp": {
-          "prompt_eval_ms": 311.00,
-          "eval_ms": 116443.73,
-          "total_ms": 116754.73,
-          "total_sec": 116.75,
-          "completion_tokens": 3029,
-          "tokens_per_sec": 25.95,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "note": "-ngl 28 + -c 65536 (ambas excepciones)",
-          "response_truncated": false
-        }
-      }
-    }
-  ]
-}
-      }
-    },
-        "ubatch-128_only_economy": {
-          "prompt_eval_ms": 405.20,
-          "eval_ms": 149029.45,
-          "total_ms": 149434.65,
-          "total_sec": 149.43,
-          "completion_tokens": 3704,
-          "tokens_per_sec": 24.81,
-          "prompt_tokens": 63,
-          "power_plan": "economy",
-          "response_truncated": false
-        },
-        "moe-16_ubatch-128_economy": {
-          "prompt_eval_ms": 570.74,
-          "eval_ms": 153710.86,
-          "total_ms": 154281.60,
-          "total_sec": 154.28,
-          "completion_tokens": 3302,
-          "tokens_per_sec": 21.45,
-          "prompt_tokens": 63,
-          "power_plan": "economy",
-          "response_truncated": false
-        },
-        "moe-8_alto-rendimiento_hp_ngl99_c98304": {
-          "prompt_eval_ms": 314.02,
-          "eval_ms": 150280.90,
-          "total_ms": 150594.92,
-          "total_sec": 150.59,
-          "completion_tokens": 3922,
-          "tokens_per_sec": 26.06,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "response_truncated": false
-        },
-        "moe-14_hp_ngl99_c98304": {
-          "prompt_eval_ms": 288.77,
-          "eval_ms": 153664.87,
-          "total_ms": 153953.64,
-          "total_sec": 153.95,
-          "completion_tokens": 3656,
-          "tokens_per_sec": 23.75,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "response_truncated": false
-        },
-        "moe-12_hp_ngl99_c98304": {
-          "prompt_eval_ms": 300.30,
-          "eval_ms": 140488.45,
-          "total_ms": 140788.75,
-          "total_sec": 140.79,
-          "completion_tokens": 3341,
-          "tokens_per_sec": 23.74,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "response_truncated": false
-        },
-        "moe-8_c65536_hp_ngl99": {
-          "prompt_eval_ms": 281.49,
-          "eval_ms": 131798.77,
-          "total_ms": 132080.26,
-          "total_sec": 132.08,
-          "completion_tokens": 3136,
-          "tokens_per_sec": 23.75,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "note": "-c 65536 — más rápida de HP en prompt largo",
-          "response_truncated": false
-        },
-        "opencode-recommend_ngl28_moe8_c65536_hp": {
-          "prompt_eval_ms": 331.24,
-          "eval_ms": 151464.47,
-          "total_ms": 151795.71,
-          "total_sec": 151.80,
-          "completion_tokens": 3608,
-          "tokens_per_sec": 23.77,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "note": "-ngl 28 + -c 65536 (ambas excepciones)",
-          "response_truncated": false
-        }
-      }
-    },
-        "ubatch-128_only_economy": {
-          "prompt_eval_ms": 360.30,
-          "eval_ms": 60989.55,
-          "total_ms": 61349.85,
-          "total_sec": 61.35,
-          "completion_tokens": 2301,
-          "tokens_per_sec": 37.59,
-          "prompt_tokens": 63,
-          "power_plan": "economy",
-          "note": "unica con -c 98304 + ubatch-128 (sin moe)",
-          "response_truncated": false
-        },
-        "moe-16_ubatch-128_economy": {
-          "prompt_eval_ms": 489.92,
-          "eval_ms": 78979.72,
-          "total_ms": 79469.64,
-          "total_sec": 79.47,
-          "completion_tokens": 2117,
-          "tokens_per_sec": 26.67,
-          "prompt_tokens": 63,
-          "power_plan": "economy",
-          "response_truncated": false
-        },
-        "moe-8_alto-rendimiento_hp_ngl99_c98304": {
-          "prompt_eval_ms": 285.52,
-          "eval_ms": 37150.08,
-          "total_ms": 37435.60,
-          "total_sec": 37.44,
-          "completion_tokens": 1104,
-          "tokens_per_sec": 29.50,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "note": "HP + c98304 — más rápida del benchmark completo",
-          "response_truncated": false
-        },
-        "moe-14_hp_ngl99_c98304": {
-          "prompt_eval_ms": 262.90,
-          "eval_ms": 73867.18,
-          "total_ms": 74130.08,
-          "total_sec": 74.13,
-          "completion_tokens": 2199,
-          "tokens_per_sec": 29.54,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "response_truncated": false
-        },
-        "moe-12_hp_ngl99_c98304": {
-          "prompt_eval_ms": 267.50,
-          "eval_ms": 54386.48,
-          "total_ms": 54653.98,
-          "total_sec": 54.65,
-          "completion_tokens": 1607,
-          "tokens_per_sec": 29.63,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "response_truncated": false
-        },
-        "moe-8_c65536_hp_ngl99": {
-          "prompt_eval_ms": 292.08,
-          "eval_ms": 42528.75,
-          "total_ms": 42820.83,
-          "total_sec": 42.82,
-          "completion_tokens": 1371,
-          "tokens_per_sec": 31.98,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "note": "-c 65536 (contexto reducido)",
-          "response_truncated": false
-        },
-        "opencode-recommend_ngl28_moe8_c65536_hp": {
-          "prompt_eval_ms": 349.17,
-          "eval_ms": 90873.97,
-          "total_ms": 91223.14,
-          "total_sec": 91.22,
-          "completion_tokens": 2914,
-          "tokens_per_sec": 31.97,
-          "prompt_tokens": 63,
-          "power_plan": "high-performance",
-          "note": "-ngl 28 + -c 65536 (ambas excepciones) — más lenta de HP",
-          "response_truncated": false
-        }
-      }
-    },
         "ubatch-128_only_economy": {
           "prompt_eval_ms": 306.40,
           "eval_ms": 155285.61,
@@ -451,16 +199,16 @@
           "note": "unica con -c 65536 (contexto reducido)",
           "response_truncated": false
         },
-        "opencode-recommend_ngl28_moe8_c65536_hp": {
-          "prompt_eval_ms": 414.81,
-          "eval_ms": 139723.83,
-          "total_ms": 140138.64,
-          "total_sec": 140.14,
-          "completion_tokens": 2943,
-          "tokens_per_sec": 21.06,
+        "cache-k8_v8_hp_ngl99": {
+          "prompt_eval_ms": 222.01,
+          "eval_ms": 72488.51,
+          "total_ms": 72710.52,
+          "total_sec": 72.71,
+          "completion_tokens": 2520,
+          "tokens_per_sec": 34.76,
           "prompt_tokens": 63,
           "power_plan": "high-performance",
-          "note": "-ngl 28 + -c 65536 (ambas excepciones)",
+          "note": "--cache-type-k q8_0 --cache-type-v q8_0 — mejor tiempo total",
           "response_truncated": false
         }
       }
@@ -471,7 +219,7 @@
       "category": "algoritmo+testing",
       "expected_tokens": "~2500",
       "results_by_config": {
-        "n-cpu-moe-20_ubatch-64": {
+        "moe-20_ubatch-64_economy": {
           "prompt_eval_ms": 276.74,
           "eval_ms": 153248.69,
           "total_ms": 153525.43,
@@ -479,9 +227,10 @@
           "completion_tokens": 3097,
           "tokens_per_sec": 20.21,
           "prompt_tokens": 47,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "ubatch-128": {
+        "ubatch-128_only_economy": {
           "prompt_eval_ms": 225.49,
           "eval_ms": 146479.17,
           "total_ms": 146704.66,
@@ -489,9 +238,10 @@
           "completion_tokens": 3325,
           "tokens_per_sec": 22.70,
           "prompt_tokens": 47,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "n-cpu-moe-16_ubatch-128": {
+        "moe-16_ubatch-128_economy": {
           "prompt_eval_ms": 311.24,
           "eval_ms": 108151.71,
           "total_ms": 108462.95,
@@ -499,9 +249,10 @@
           "completion_tokens": 2596,
           "tokens_per_sec": 24.00,
           "prompt_tokens": 47,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "alto-rendimiento_ngl99_c98304": {
+        "moe-8_alto-rendimiento_hp_ngl99_c98304": {
           "prompt_eval_ms": 294.55,
           "eval_ms": 119377.34,
           "total_ms": 119671.89,
@@ -509,9 +260,10 @@
           "completion_tokens": 2942,
           "tokens_per_sec": 24.64,
           "prompt_tokens": 47,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-14": {
+        "moe-14_hp_ngl99_c98304": {
           "prompt_eval_ms": 281.61,
           "eval_ms": 116116.45,
           "total_ms": 116398.06,
@@ -519,9 +271,10 @@
           "completion_tokens": 3029,
           "tokens_per_sec": 26.09,
           "prompt_tokens": 47,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-12": {
+        "moe-12_hp_ngl99_c98304": {
           "prompt_eval_ms": 263.49,
           "eval_ms": 72545.07,
           "total_ms": 72808.56,
@@ -529,9 +282,10 @@
           "completion_tokens": 1984,
           "tokens_per_sec": 27.35,
           "prompt_tokens": 47,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-8_c65536": {
+        "moe-8_c65536_hp_ngl99": {
           "prompt_eval_ms": 211.05,
           "eval_ms": 80163.65,
           "total_ms": 80374.70,
@@ -539,16 +293,20 @@
           "completion_tokens": 2566,
           "tokens_per_sec": 32.01,
           "prompt_tokens": 47,
+          "power_plan": "high-performance",
+          "note": "-c 65536 (contexto reducido)",
           "response_truncated": false
         },
-        "opencode-recommend_ngl28_moe8_c65536": {
-          "prompt_eval_ms": 454.02,
-          "eval_ms": 119814.09,
-          "total_ms": 120268.11,
-          "total_sec": 120.27,
-          "completion_tokens": 2529,
-          "tokens_per_sec": 21.11,
+        "cache-k8_v8_hp_ngl99": {
+          "prompt_eval_ms": 201.18,
+          "eval_ms": 84723.71,
+          "total_ms": 84924.89,
+          "total_sec": 84.92,
+          "completion_tokens": 2947,
+          "tokens_per_sec": 34.78,
           "prompt_tokens": 47,
+          "power_plan": "high-performance",
+          "note": "--cache-type-k q8_0 --cache-type-v q8_0",
           "response_truncated": false
         }
       }
@@ -559,7 +317,7 @@
       "category": "database",
       "expected_tokens": "~3000",
       "results_by_config": {
-        "n-cpu-moe-20_ubatch-64": {
+        "moe-20_ubatch-64_economy": {
           "prompt_eval_ms": 801.29,
           "eval_ms": 186814.43,
           "total_ms": 187615.72,
@@ -567,9 +325,10 @@
           "completion_tokens": 3749,
           "tokens_per_sec": 20.07,
           "prompt_tokens": 56,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "ubatch-128": {
+        "ubatch-128_only_economy": {
           "prompt_eval_ms": 408.75,
           "eval_ms": 144496.27,
           "total_ms": 144905.02,
@@ -577,9 +336,10 @@
           "completion_tokens": 3279,
           "tokens_per_sec": 22.69,
           "prompt_tokens": 56,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "n-cpu-moe-16_ubatch-128": {
+        "moe-16_ubatch-128_economy": {
           "prompt_eval_ms": 586.50,
           "eval_ms": 121659.15,
           "total_ms": 122245.65,
@@ -587,9 +347,10 @@
           "completion_tokens": 2900,
           "tokens_per_sec": 23.84,
           "prompt_tokens": 56,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "alto-rendimiento_ngl99_c98304": {
+        "moe-8_alto-rendimiento_hp_ngl99_c98304": {
           "prompt_eval_ms": 291.20,
           "eval_ms": 152723.53,
           "total_ms": 153014.74,
@@ -597,9 +358,10 @@
           "completion_tokens": 3719,
           "tokens_per_sec": 24.35,
           "prompt_tokens": 56,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-14": {
+        "moe-14_hp_ngl99_c98304": {
           "prompt_eval_ms": 287.88,
           "eval_ms": 134433.12,
           "total_ms": 134721.00,
@@ -607,9 +369,10 @@
           "completion_tokens": 3476,
           "tokens_per_sec": 25.86,
           "prompt_tokens": 56,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-12": {
+        "moe-12_hp_ngl99_c98304": {
           "prompt_eval_ms": 270.55,
           "eval_ms": 85040.35,
           "total_ms": 85310.90,
@@ -617,9 +380,10 @@
           "completion_tokens": 2305,
           "tokens_per_sec": 27.10,
           "prompt_tokens": 56,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-8_c65536": {
+        "moe-8_c65536_hp_ngl99": {
           "prompt_eval_ms": 217.00,
           "eval_ms": 95088.95,
           "total_ms": 95305.95,
@@ -627,16 +391,20 @@
           "completion_tokens": 3020,
           "tokens_per_sec": 31.76,
           "prompt_tokens": 56,
+          "power_plan": "high-performance",
+          "note": "-c 65536 (contexto reducido)",
           "response_truncated": false
         },
-        "opencode-recommend_ngl28_moe8_c65536": {
-          "prompt_eval_ms": 393.71,
-          "eval_ms": 145466.82,
-          "total_ms": 145860.53,
-          "total_sec": 145.86,
-          "completion_tokens": 3227,
-          "tokens_per_sec": 22.18,
+        "cache-k8_v8_hp_ngl99": {
+          "prompt_eval_ms": 209.81,
+          "eval_ms": 60806.73,
+          "total_ms": 61016.54,
+          "total_sec": 61.02,
+          "completion_tokens": 2117,
+          "tokens_per_sec": 34.82,
           "prompt_tokens": 56,
+          "power_plan": "high-performance",
+          "note": "--cache-type-k q8_0 --cache-type-v q8_0 — mejor tiempo total",
           "response_truncated": false
         }
       }
@@ -647,7 +415,7 @@
       "category": "refactorizacion",
       "expected_tokens": "~2400",
       "results_by_config": {
-        "n-cpu-moe-20_ubatch-64": {
+        "moe-20_ubatch-64_economy": {
           "prompt_eval_ms": 409.56,
           "eval_ms": 135581.65,
           "total_ms": 135991.21,
@@ -655,9 +423,10 @@
           "completion_tokens": 2744,
           "tokens_per_sec": 20.24,
           "prompt_tokens": 72,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "ubatch-128": {
+        "ubatch-128_only_economy": {
           "prompt_eval_ms": 655.98,
           "eval_ms": 100475.88,
           "total_ms": 101131.86,
@@ -665,9 +434,11 @@
           "completion_tokens": 2297,
           "tokens_per_sec": 22.86,
           "prompt_tokens": 72,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "alto-rendimiento_ngl99_c98304": {
+        "moe-16_ubatch-128_economy": null,
+        "moe-8_alto-rendimiento_hp_ngl99_c98304": {
           "prompt_eval_ms": 370.93,
           "eval_ms": 123018.90,
           "total_ms": 123389.83,
@@ -675,9 +446,10 @@
           "completion_tokens": 3030,
           "tokens_per_sec": 24.63,
           "prompt_tokens": 72,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-14": {
+        "moe-14_hp_ngl99_c98304": {
           "prompt_eval_ms": 353.80,
           "eval_ms": 112611.22,
           "total_ms": 112965.01,
@@ -685,9 +457,10 @@
           "completion_tokens": 2924,
           "tokens_per_sec": 25.97,
           "prompt_tokens": 72,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-12": {
+        "moe-12_hp_ngl99_c98304": {
           "prompt_eval_ms": 336.16,
           "eval_ms": 87708.87,
           "total_ms": 88045.04,
@@ -695,9 +468,10 @@
           "completion_tokens": 2374,
           "tokens_per_sec": 27.07,
           "prompt_tokens": 72,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-8_c65536": {
+        "moe-8_c65536_hp_ngl99": {
           "prompt_eval_ms": 276.29,
           "eval_ms": 76878.33,
           "total_ms": 77154.61,
@@ -705,16 +479,20 @@
           "completion_tokens": 2439,
           "tokens_per_sec": 31.73,
           "prompt_tokens": 72,
+          "power_plan": "high-performance",
+          "note": "-c 65536 (contexto reducido)",
           "response_truncated": false
         },
-        "opencode-recommend_ngl28_moe8_c65536": {
-          "prompt_eval_ms": 452.79,
-          "eval_ms": 104920.95,
-          "total_ms": 105373.73,
-          "total_sec": 105.37,
-          "completion_tokens": 2413,
-          "tokens_per_sec": 23.00,
+        "cache-k8_v8_hp_ngl99": {
+          "prompt_eval_ms": 257.58,
+          "eval_ms": 52385.34,
+          "total_ms": 52642.92,
+          "total_sec": 52.64,
+          "completion_tokens": 1824,
+          "tokens_per_sec": 34.82,
           "prompt_tokens": 72,
+          "power_plan": "high-performance",
+          "note": "--cache-type-k q8_0 --cache-type-v q8_0 — mejor tiempo total",
           "response_truncated": false
         }
       }
@@ -725,7 +503,7 @@
       "category": "teoria",
       "expected_tokens": "~3000",
       "results_by_config": {
-        "n-cpu-moe-20_ubatch-64": {
+        "moe-20_ubatch-64_economy": {
           "prompt_eval_ms": 494.34,
           "eval_ms": 124627.79,
           "total_ms": 125122.13,
@@ -733,9 +511,10 @@
           "completion_tokens": 2463,
           "tokens_per_sec": 19.76,
           "prompt_tokens": 36,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "ubatch-128": {
+        "ubatch-128_only_economy": {
           "prompt_eval_ms": 706.51,
           "eval_ms": 121738.89,
           "total_ms": 122445.40,
@@ -743,9 +522,11 @@
           "completion_tokens": 2766,
           "tokens_per_sec": 22.72,
           "prompt_tokens": 36,
+          "power_plan": "economy",
           "response_truncated": false
         },
-        "alto-rendimiento_ngl99_c98304": {
+        "moe-16_ubatch-128_economy": null,
+        "moe-8_alto-rendimiento_hp_ngl99_c98304": {
           "prompt_eval_ms": 273.74,
           "eval_ms": 121645.46,
           "total_ms": 121919.20,
@@ -753,9 +534,10 @@
           "completion_tokens": 2996,
           "tokens_per_sec": 24.63,
           "prompt_tokens": 36,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-14": {
+        "moe-14_hp_ngl99_c98304": {
           "prompt_eval_ms": 262.03,
           "eval_ms": 110612.79,
           "total_ms": 110874.82,
@@ -763,9 +545,10 @@
           "completion_tokens": 2874,
           "tokens_per_sec": 25.98,
           "prompt_tokens": 36,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-12": {
+        "moe-12_hp_ngl99_c98304": {
           "prompt_eval_ms": 246.63,
           "eval_ms": 96651.90,
           "total_ms": 96898.53,
@@ -773,9 +556,10 @@
           "completion_tokens": 2635,
           "tokens_per_sec": 27.26,
           "prompt_tokens": 36,
+          "power_plan": "high-performance",
           "response_truncated": false
         },
-        "n-cpu-moe-8_c65536": {
+        "moe-8_c65536_hp_ngl99": {
           "prompt_eval_ms": 196.71,
           "eval_ms": 98127.33,
           "total_ms": 98324.04,
@@ -783,16 +567,20 @@
           "completion_tokens": 3065,
           "tokens_per_sec": 31.23,
           "prompt_tokens": 36,
+          "power_plan": "high-performance",
+          "note": "-c 65536 (contexto reducido)",
           "response_truncated": false
         },
-        "opencode-recommend_ngl28_moe8_c65536": {
-          "prompt_eval_ms": 360.00,
-          "eval_ms": 102724.11,
-          "total_ms": 103084.11,
-          "total_sec": 103.08,
-          "completion_tokens": 2340,
-          "tokens_per_sec": 22.78,
+        "cache-k8_v8_hp_ngl99": {
+          "prompt_eval_ms": 188.01,
+          "eval_ms": 76489.21,
+          "total_ms": 76677.22,
+          "total_sec": 76.68,
+          "completion_tokens": 2640,
+          "tokens_per_sec": 34.51,
           "prompt_tokens": 36,
+          "power_plan": "high-performance",
+          "note": "--cache-type-k q8_0 --cache-type-v q8_0 — mejor tiempo total",
           "response_truncated": false
         }
       }
@@ -800,85 +588,87 @@
   ],
   "aggregates": {
     "by_config": {
-      "n-cpu-moe-20_ubatch-64": {
+      "moe-20_ubatch-64_economy": {
         "avg_total_sec": 158.75,
         "avg_tokens_per_sec": 20.26,
         "configs_with_data": 6,
         "rank": 8
       },
-      "ubatch-128_only": {
+      "ubatch-128_only_economy": {
         "avg_total_sec": 139.54,
         "avg_tokens_per_sec": 22.46,
         "configs_with_data": 6,
         "rank": 7
       },
-      "n-cpu-moe-16_ubatch-128": {
+      "moe-16_ubatch-128_economy": {
         "avg_total_sec": 143.80,
         "avg_tokens_per_sec": 23.74,
         "configs_with_data": 4,
         "rank": 6
       },
-      "alto-rendimiento_ngl99_c98304": {
+      "moe-8_alto-rendimiento_hp_ngl99_c98304": {
         "avg_total_sec": 119.37,
         "avg_tokens_per_sec": 24.63,
         "configs_with_data": 6,
-        "rank": 3
+        "rank": 5
       },
-      "n-cpu-moe-14": {
+      "moe-14_hp_ngl99_c98304": {
         "avg_total_sec": 124.64,
         "avg_tokens_per_sec": 25.73,
         "configs_with_data": 6,
         "rank": 4
       },
-      "n-cpu-moe-12": {
+      "moe-12_hp_ngl99_c98304": {
         "avg_total_sec": 105.50,
         "avg_tokens_per_sec": 27.10,
         "configs_with_data": 6,
-        "rank": 2
+        "rank": 3
       },
-      "n-cpu-moe-8_c65536_ngl99": {
+      "moe-8_c65536_hp_ngl99": {
         "avg_total_sec": 102.74,
         "avg_tokens_per_sec": 31.36,
         "configs_with_data": 6,
-        "rank": 1,
-        "winner_prompts": [2, 3, 5, 6]
+        "rank": 2,
+        "winner_prompts": [1, 2, 3, 4]
       },
-      "opencode-recommend_ngl28_moe8_c65536": {
-        "avg_total_sec": 127.78,
-        "avg_tokens_per_sec": 22.00,
+      "cache-k8_v8_hp_ngl99": {
+        "avg_total_sec": 78.88,
+        "avg_tokens_per_sec": 34.73,
         "configs_with_data": 6,
-        "rank": 8
+        "rank": 1,
+        "winner_prompts": [1, 2, 4, 5, 6],
+        "note": "--cache-type-k q8_0 --cache-type-v q8_0 — mejor config general"
       }
     },
     "by_category": {
       "validacion": {
-        "best_config": "alto-rendimiento_ngl99_c98304",
-        "best_time_sec": 121.85
+        "best_config": "cache-k8_v8_hp_ngl99",
+        "best_time_sec": 107.36
       },
       "OOP": {
-        "best_config": "n-cpu-moe-12",
-        "best_time_sec": 74.71
+        "best_config": "cache-k8_v8_hp_ngl99",
+        "best_time_sec": 72.71
       },
       "algoritmo+testing": {
-        "best_config": "n-cpu-moe-12",
+        "best_config": "moe-12_hp_ngl99_c98304",
         "best_time_sec": 72.81
       },
       "database": {
-        "best_config": "n-cpu-moe-8_c65536_ngl99",
-        "best_time_sec": 95.31
+        "best_config": "cache-k8_v8_hp_ngl99",
+        "best_time_sec": 61.02
       },
       "refactorizacion": {
-        "best_config": "n-cpu-moe-8_c65536_ngl99",
-        "best_time_sec": 77.15
+        "best_config": "cache-k8_v8_hp_ngl99",
+        "best_time_sec": 52.64
       },
       "teoria": {
-        "best_config": "n-cpu-moe-8_c65536_ngl99",
-        "best_time_sec": 98.32
+        "best_config": "cache-k8_v8_hp_ngl99",
+        "best_time_sec": 76.68
       }
     }
   },
   "response_quality": {
-    "config_evaluated": "n-cpu-moe-8_c65536_ngl99",
+    "config_evaluated": "moe-8_c65536_hp_ngl99",
     "overall_grade": "A-",
     "per_prompt": {
       "1": { "grade": "B+", "note": "Truncado por finish_reason=length — necesita max_tokens > 4096" },
@@ -891,14 +681,15 @@
     "summary": "5/6 respuestas completas y de alta calidad. Solo el prompt 1 fue truncado. Modelo genera codigo moderno (PHP 8+, tipado, PSR-12)."
   },
   "recommendations": {
-    "best_overall_config": "--n-cpu-moe 8 --ubatch-size 128 -ngl 99 -c 65536",
+    "best_overall_config": "--cache-type-k q8_0 --cache-type-v q8_0 (HP)",
     "best_for_short_responses": "-alto-rendimiento (-ngl 99, -c 98304)",
     "best_consistency": "--n-cpu-moe 8 -c 65536",
     "key_findings": [
+      "--cache-type-k q8_0 --cache-type-v q8_0 es la config mas rapida del benchmark (avg 78.88s)",
       "-ngl 28 es contraproducente para Qwen3.6-35B-A3B MoE — necesita mas GPU coverage",
       "--n-cpu-moe bajo (8) con -c medio (65536) es mas consistente que valores altos (16-20)",
       "--ubatch-size 64 vs 128: diferencia minima en throughput (~1 tok/s), ubatch64 mejor prompt eval time",
-      "Para respuestas largas (>3000 tokens): gap entre configs se amplifica — moe8 tarda ~102s vs -ngl28 que tarda ~172s (+69%)",
+      "Para respuestas largas (>3000 tokens): gap entre configs se amplifica",
       "max_tokens debe ser >= 4096 para prompts que generan codigo extenso"
     ]
   }
