@@ -4,7 +4,7 @@
   -c 65536 ^
   -ngl 99 ^
   -np 1 ^
-  --n-cpu-moe 20 ^
+  --n-cpu-moe 16 ^
   --threads 8 ^
   --flash-attn auto ^
   --cache-type-k q8_0 ^
